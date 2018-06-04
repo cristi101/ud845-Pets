@@ -15,11 +15,13 @@
  */
 package com.example.android.pets.data;
 
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.pets.data.PetContract.PetEntry;
+
 
 /**
  * Database helper for Pets app. Manages database creation and version management.
@@ -28,7 +30,9 @@ public class PetDbHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = PetDbHelper.class.getSimpleName();
 
-    /** Name of the database file */
+    /**
+     * Name of the database file
+     *///data/data/com.example.android.pets/databases
     private static final String DATABASE_NAME = "shelter.db";
 
     /**
@@ -41,8 +45,10 @@ public class PetDbHelper extends SQLiteOpenHelper {
      *
      * @param context of the app
      */
+
     public PetDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, context.getDatabasePath(DATABASE_NAME).getAbsolutePath(), null, DATABASE_VERSION);
+
     }
 
     /**
@@ -68,5 +74,7 @@ public class PetDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // The database is still at version 1, so there's nothing to do be done here.
+
     }
+
 }

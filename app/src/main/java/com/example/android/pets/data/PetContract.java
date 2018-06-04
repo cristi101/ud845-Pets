@@ -15,6 +15,8 @@
  */
 package com.example.android.pets.data;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -26,11 +28,20 @@ public final class PetContract {
     // give it an empty constructor.
     private PetContract() {}
 
+    public static final String CONTENT_AUTHORITY = "com.example.android.pets";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_PETS = "pets";
     /**
      * Inner class that defines constant values for the pets database table.
      * Each entry in the table represents a single pet.
      */
     public static final class PetEntry implements BaseColumns {
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
 
         /** Name of database table for pets */
         public final static String TABLE_NAME = "pets";
@@ -79,6 +90,23 @@ public final class PetContract {
         public static final int GENDER_UNKNOWN = 0;
         public static final int GENDER_MALE = 1;
         public static final int GENDER_FEMALE = 2;
+
+        public static boolean isValidGender(int gender) {
+            return gender == GENDER_UNKNOWN || gender == GENDER_MALE || gender == GENDER_FEMALE;
+        }
+
+        public static String getGender(int gender) {
+            switch (gender) {
+                case GENDER_UNKNOWN:
+                    return "unknown";
+                case GENDER_MALE:
+                    return "male";
+                case GENDER_FEMALE:
+                    return "female";
+                default:
+                    return "invalid";
+            }
+        }
     }
 
 }
